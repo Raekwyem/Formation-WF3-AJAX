@@ -1,0 +1,16 @@
+#conteneur{
+	max-width: 1200px;
+	margin: 0 auto;
+}
+table {
+	border-collapse: collapse;
+}
+th, td{
+	padding: 10px;
+}
+th{
+	color: red;
+}
+td{
+	color: grey;
+}

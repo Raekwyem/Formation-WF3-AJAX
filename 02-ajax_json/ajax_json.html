@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<body>
+		<select onchange="ajax();" id="choix" style="width: 50%; display: block; margin: 0 auto; min-height: 28px; border: 1px solid #dedede; border-radius: 3px;">
+			<option>Laura</option>
+			<option>Stéphanie</option>
+			<option>Guillaume</option>
+			<option>Amandine</option>
+			<option>Daniel</option>
+			<option>Julien</option>
+		</select>
+		<hr>
+		<div id="resultat">
+		</div>
+		<script>
+			function ajax(){
+				var file = 'ajax_json.php';
+
+				if(window.XMLHttpRequest)
+					var xhttp = new XMLHttpRequest(); // pour la plupart des navigateurs
+				else
+					var xhttp = new ActiveXObject("Microsoft.XMLHTTP"); // pour explorer
+
+				// on récupère la valeur du champs select
+				var choix = document.getElementById("choix").value;
+				console.log(choix);
+
+				// préparation du ou des paramètres
+				var parameters = "personne=" + choix;
+				console.log(parameters);
+
+				xhttp.open("POST", file, true);
+				// la ligne suivante est obligatoire en méthode post
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+				// mise en place de l'évènement
+				xhttp.onreadystatechange = function(){
+					if(xhttp.readyState == 4 && xhttp.status == 200)
+					{
+						console.log(xhttp.responseText);
+						var reponse = JSON.parse(xhttp.responseText);
+						document.getElementById('resultat').innerHTML = reponse.resultat;
+					}
+				}
+				xhttp.send(parameters); // on envoie avec les parametres (personne=valeur)
+			}
+		</script>
+	</body>
+</html>

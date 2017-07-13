@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			select, input { width: 100%;
+							min-height: 28px;
+							border: 1px solid #dedede;
+							border-radius: 3px;
+							}
+
+		</style>
+		<title>Document</title>
+	</head>
+	<body>
+		<div style="width: 30%; margin: 0 auto;">
+			<form method="post" action="">
+				<label for="pays">Pays</label>
+				<select id="pays" name="pays">
+					<option value="">Choisissez un pays</option>
+					<option>France</option>
+					<option>USA</option>
+					<option>Canada</option>
+				</select>
+				<label for="ville">Ville</label>
+				<select id="ville" name="ville"></select>
+				<hr>
+				<input type="submit" value="Valider">
+			</form>
+		</div>
+		<script>
+			var champPays = document.getElementById("pays");
+			// évènement
+			champPays.addEventListener("change", monAjax);
+
+			function monAjax(){
+				var file = "select.php";
+				var xhttp = new XMLHttpRequest();
+
+				var valeur = champPays.value;
+				console.log(valeur);
+
+				// parametres
+				var param = 'pays=' + valeur;
+
+				xhttp.open("POST", file, true);
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+				xhttp.onreadystatechange = function(){
+					if(xhttp.readyState == 4 && xhttp.status == 200){
+						console.log(xhttp.responseText);
+						var result = JSON.parse(xhttp.responseText);
+						console.log(result);
+						document.getElementById("ville").innerHTML = result.resultat;
+
+						// equivalent d'un var_dump
+						function dump(obj){
+							var out = '';
+							for (var i in obj){
+								out += i + ": " + obj[i] + "\n";
+							}
+							console.log('objet:' + out);
+						}
+						dump(result);
+					}
+				}
+			xhttp.send(param);
+			}
+		</script>
+	</body>
+</html>
